@@ -5,25 +5,32 @@
   <title>{{ vlog.title }}</title>
 </head>
 <body>
+  <a href="{% url 'vlog_list' %}" class="btn btn-secondary mb-3">Go Back to the Main Page</a>
   <div class="container mt-4">
     <h1>{{ vlog.title }}</h1> <!-- Display the title of the vlog -->
     <p><strong>Author:</strong> {{ vlog.author }}</p>  <!-- Display the author of the vlog -->
     <p><strong>Published Date:</strong> {{ vlog.published_date }}</p>  <!-- Display the published date -->
     <p><strong>Description:</strong></p>
     <p>{{ vlog.description }}</p>
-    <p>Tags: {{ vlog.tags.name }}</p>
-    <div>
-      <h4>Tags:</h4>
-      {% for tag in vlog.tags.all %}
-          <p> {{ vlog.tags }} </p>
-      {% endfor %}
-  </div>
-    <iframe width="560" height="315" 
+    
+      <iframe width="560" height="315" 
         src="{{ vlog.embed_url }}"
         title="YouTube video player" frameborder="0" 
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
         referrerpolicy="strict-origin-when-cross-origin" allowfullscreen>
-    </iframe>
+      </iframe>
+
+      <div>
+      {% if vlog.tags.exists %}
+        <div>
+          {% for tag in vlog.tags.all %}
+            <span class="badge bg-primary me-1">{{ tag.name }}</span> <!-- Display each tag inline -->
+          {% endfor %}
+        </div>
+      {% else %}
+      {% endif %}
+      </div>
+    </div>
 
     <!-- Edit Button for the Author -->
     {% if user.is_authenticated and user == vlog.author %}
