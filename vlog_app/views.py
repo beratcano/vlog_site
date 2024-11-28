@@ -39,7 +39,7 @@ class VlogPostUpdateView(UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['vlog'] = self.get_object()  # Pass the Vlog instance to the template
+        context['vlog'] = self.get_object()  
         return context
     
     # def dispatch(self, request, *args, **kwargs):
