@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ form.instance.pk|default:"Add New Vlog" }}</title>
+</head>
+<body>
+    <h1>{{ form.instance.pk|default:"Add New Vlog" }}</h1>
+    <form method="POST" action="">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">
+            {% if form.instance.pk %} Update Vlog {% else %} Save Vlog {% endif %}
+        </button>
+    </form>
+</body>
+</html>

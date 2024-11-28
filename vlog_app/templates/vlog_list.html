@@ -1,0 +1,52 @@
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vlog List</title>
+</head>
+<body>
+    {% if user.is_authenticated %}
+        <form method="POST" action="{% url 'logout' %}">
+            {% csrf_token %}
+            <p>Signed in as: <strong>{{ user.username }}</strong></p>
+            <button type="submit">Logout</button>
+        </form>
+        <form method="POST" action="{% url 'vlog_create' %}">
+            {% csrf_token %}
+            <button type="submit">Upload A Vlog</button>
+        </form>
+    {% else %}
+        <a href="{% url 'login' %}">Login</a>
+        <a href="{% url 'register' %}">Register</a>
+        
+    {% endif %}
+    </form>
+    <h1>Latest Vlogs</h1>
+    <ul>
+        {% for vlog in vlogs %}
+            <li>
+                <a href="{% url 'vlog_detail' vlog.id %}">
+                    <h2>{{ vlog.title }}</h2>
+                </a>
+                <p>{{ vlog.content|truncatewords:20 }}</p>
+                <p><small>Published on: {{ vlog.published_date|date:"d/m/Y" }} , {{ vlog.published_time|time:"H:i" }} </small></p>
+            </li>
+        {% empty %}
+            <li>No vlogs available.</li>
+        {% endfor %}
+    </ul>
+    <div>
+        {% if is_paginated %}
+            <div>
+                {% if page_obj.has_previous %}
+                    <a href="?page={{ page_obj.previous_page_number }}">Previous</a>
+                {% endif %}
+
+                <span>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+
+                {% if page_obj.has_next %}
+                    <a href="?page={{ page_obj.next_page_number }}">Next</a>
+                {% endif %}
+            </div>
+        {% endif %}
+    </div>
+</body>
