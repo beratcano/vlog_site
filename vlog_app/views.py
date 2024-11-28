@@ -56,7 +56,7 @@ def register(request):
         form = UserCreationForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('login')  # Redirect to login page after successful registration
+            return redirect('/vlog/')  # Redirect to login page after successful registration
         else:
             messages.error(request, "There was an error with your registration. Please check the form.")
     else:
