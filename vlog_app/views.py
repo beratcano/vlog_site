@@ -6,7 +6,6 @@ from django.views.generic.edit import CreateView, UpdateView
 from django.contrib.auth.forms import UserCreationForm
 from django.urls import reverse_lazy
 from django.contrib import messages
-from django.http import HttpResponseForbidden
 
 #Vlogs
 class VlogPostListView(ListView):
@@ -39,7 +38,7 @@ class VlogPostUpdateView(UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['vlog'] = self.get_object()  
+        context['vlog'] = self.get_object() 
         return context
     
     # def dispatch(self, request, *args, **kwargs):

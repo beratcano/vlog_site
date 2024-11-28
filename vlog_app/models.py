@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+import re
 # Create your models here.
 class VlogPost(models.Model):
     id = models.AutoField(primary_key=True)
@@ -13,6 +14,19 @@ class VlogPost(models.Model):
 
     def __str__(self):
         return self.title
+    
+    def embed_url(self):
+        embed_regex = r"^(https:\/\/)?(www\.)?youtube\.com\/embed\/[\w-]+(\?.*)?$"
+        youtube_regex = r"(?:https:\/\/)?(?:www\.)?(?:youtube\.com|youtu\.be)\/(?:watch\?v=)?(.+)"
+
+        if re.match(embed_regex, self.video_url):
+            return self.video_url
+        match = re.search(youtube_regex, self.video_url)
+        if match:
+            video_id = match.group(1)
+            return f"https://www.youtube.com/embed/{video_id}"
+        return self.video_url
+
 
 class Categories(models.Model):
     id = models.AutoField(primary_key=True)
