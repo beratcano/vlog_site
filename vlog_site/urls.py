@@ -22,8 +22,10 @@ from vlog_app.views import register
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', RedirectView.as_view(url='/vlog/', permanent=False), name='index'),
+
+    path('', RedirectView.as_view(url='/vlog/'), name='index'),
     path("vlog/", include("vlog_app.urls")),
+
     path("login/",auth_views.LoginView.as_view(template_name='registration/login.html', redirect_authenticated_user=True, next_page='/vlog/'), name="login"),
     path("logout/",auth_views.LogoutView.as_view(next_page='/vlog/'), name="logout"),
     path("register/",register, name="register"),
