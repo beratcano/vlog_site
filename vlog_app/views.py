@@ -14,6 +14,11 @@ class VlogPostListView(ListView):
     context_object_name = "vlogs"
     paginate_by = 10
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form'] = VlogPostForm()
+        return context
+
 class VlogPostDetailView(DetailView):
     model = VlogPost
     template_name = "vlog_detail.html"
@@ -22,13 +27,15 @@ class VlogPostDetailView(DetailView):
 class VlogPostCreateView(CreateView):
     model = VlogPost
     form_class = VlogPostForm
-    template_name = "vlog_form.html"
+    template_name = "vlog_list.html"
     success_url = reverse_lazy("vlog_list")
 
     def form_valid(self, form):
         if self.request.user.is_authenticated:
             form.instance.author = self.request.user
-        return super().form_valid(form)
+        response = super().form_valid(form)
+
+        return response
     
 class VlogPostUpdateView(UpdateView):
     model = VlogPost
@@ -36,7 +43,6 @@ class VlogPostUpdateView(UpdateView):
     template_name = "vlog_edit.html"
    
     def get_success_url(self):
-        # Use self.object to access the updated model instance
         return reverse("vlog_detail", kwargs={"pk": self.object.pk}) #type:ignore
 
     def get_context_data(self, **kwargs):
