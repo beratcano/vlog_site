@@ -24,10 +24,16 @@ class VlogPostDetailView(DetailView):
     template_name = "vlog_detail.html"
     context_object_name = "vlog"
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if self.request.user == self.object.author: #type:ignore
+            context['form'] = VlogPostForm(instance=self.object)  # type:ignore
+        return context
+
 class VlogPostCreateView(CreateView):
     model = VlogPost
     form_class = VlogPostForm
-    template_name = "vlog_list.html"
+    template_name = "vlog_form.html"
     success_url = reverse_lazy("vlog_list")
 
     def form_valid(self, form):
