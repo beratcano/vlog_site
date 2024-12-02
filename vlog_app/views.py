@@ -57,7 +57,7 @@ class VlogPostUpdateView(UpdateView):
         context['vlog'] = self.get_object() 
         return context
 
-#Login and Logout
+#Register
 def register(request):
     messages.get_messages(request)
     if request.method == "POST":
