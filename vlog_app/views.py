@@ -1,6 +1,6 @@
 from .models import VlogPost
 from .forms import VlogPostForm
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect
 from django.views.generic import ListView, DetailView
 from django.views.generic.edit import CreateView, UpdateView
 from django.contrib.auth.forms import UserCreationForm
